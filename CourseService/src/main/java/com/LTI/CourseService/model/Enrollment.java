@@ -29,6 +29,6 @@ public class Enrollment {
         this.enrollmentId = enrollmentId;
         this.wileyUserId = wileyUserId;
         this.userName = userName;
-        this.course = new Course(wileyCourseId, "", "", "", "");
+        this.course = new Course(wileyCourseId, "", "", "","","","");
     }
 }

@@ -1,5 +1,6 @@
 package com.LTI.CourseService.service;
 
+import com.LTI.CourseService.exception.ApiRequestException;
 import com.LTI.CourseService.model.Course;
 import com.LTI.CourseService.model.Enrollment;
 
@@ -18,7 +19,7 @@ public interface CourseService {
 
     void deleteCourse(long courseId);
 
-    void enrollToCourse(Enrollment enrollment);
+    void courseEnrollment(Enrollment enrollment);
 
     List<Enrollment> getAllEnrollments(long courseId);
 }

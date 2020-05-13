@@ -4,6 +4,7 @@ import com.LTI.CourseService.model.Course;
 import com.LTI.CourseService.model.Enrollment;
 import com.LTI.CourseService.repository.CourseJpaRepository;
 import com.LTI.CourseService.repository.EnrollmentJpaRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,8 +29,8 @@ public class CourseServiceImp implements CourseService {
     }
 
     @Override
-    public Optional<Course> searchCourseById(long wileyCourseId) {
-        return courseJpaRepository.findById(wileyCourseId);
+    public Optional<Course> searchCourseById(long courseId) {
+        return courseJpaRepository.findById(courseId);
     }
 
     @Override
@@ -51,7 +52,7 @@ public class CourseServiceImp implements CourseService {
     }
 
     @Override
-    public void enrollToCourse(Enrollment enrollment) {
+    public void courseEnrollment(Enrollment enrollment) {
         enrollmentJpaRepository.save(enrollment);
     }
 
