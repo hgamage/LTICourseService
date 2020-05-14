@@ -1,25 +1,23 @@
 package com.LTI.CourseService.service;
 
-import com.LTI.CourseService.exception.ApiRequestException;
 import com.LTI.CourseService.model.Course;
 import com.LTI.CourseService.model.Enrollment;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface CourseService {
 
-    List<Course> getAllCourses();
+    List<Course> getAllCourses() throws Exception;
 
-    Optional<Course> searchCourseById(long courseId);
+    Course searchCourseById(long courseId) throws Exception;
 
-    void saveCourse(Course course);
+    void saveCourse(Course course) throws Exception;
 
-    Course updateCourse(long courseId, Course course);
+    Course updateCourse(long courseId, Course course) throws Exception;
 
-    void deleteCourse(long courseId);
+    void deleteCourse(long courseId) throws Exception;
 
-    void courseEnrollment(Enrollment enrollment);
+    void courseEnrollment(Enrollment enrollment) throws Exception;
 
-    List<Enrollment> getAllEnrollments(long courseId);
+    List<Enrollment> getAllEnrollments(long courseId) throws Exception;
 }
