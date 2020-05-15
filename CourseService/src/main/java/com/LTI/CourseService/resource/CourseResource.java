@@ -59,7 +59,7 @@ public class CourseResource {
             enrollment.setCourse(new Course(courseId, "","","","","",""));
             courseService.courseEnrollment(enrollment);
         } catch (Exception e) {
-            throw new ApiRequestException(String.format(""));
+            throw new ApiRequestException(String.format("Cannot enroll user to the course: %d", courseId));
         }
         return new Response(String.format("Enrolled new user: %d to course: %d", enrollment.getEnrollmentId(), courseId),
                 Boolean.TRUE);
