@@ -13,25 +13,24 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/courses")
 public class CourseResource {
 
     @Autowired
-    CourseService courseService;
+    private CourseService courseService;
 
     @GetMapping("/")
-    @ApiOperation(value="Get all the available courses")
+    @ApiOperation(value = "Get all the available courses")
     public List<Course> getAllCourses() throws Exception {
             return courseService.getAllCourses();
     }
 
     @GetMapping(value = "/{courseId}", produces = MediaType.APPLICATION_JSON_VALUE,
     consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value="Get course by course id")
-    public Course searchCourseById(@PathVariable long courseId) throws Exception {
+    @ApiOperation(value = "Get course by course id")
+    public Course searchCourseById(@PathVariable final long courseId) throws Exception {
         Course courseObj = courseService.searchCourseById(courseId);
         if (courseObj == null) {
             throw new NotFoundException(String.format("course not found with given id: %d", courseId));
@@ -39,10 +38,10 @@ public class CourseResource {
         return courseObj;
     }
 
-    @RequestMapping(value="/", method= RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
+    @RequestMapping(value = "/", method= RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value="Insert new course")
-    public Response addNewCourse(@RequestBody Course course) {
+    @ApiOperation(value = "Insert new course")
+    public Response addNewCourse(@RequestBody final Course course) {
         try {
             courseService.saveCourse(course);
         } catch (Exception e) {
@@ -53,9 +52,9 @@ public class CourseResource {
 
     @RequestMapping(value = "/{courseId}/enrollments", method = RequestMethod.POST,
     consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value="Enroll user to a course")
-    public Response courseEnrollment(@RequestBody Enrollment enrollment, @PathVariable long courseId) {
-        try{
+    @ApiOperation(value = "Enroll user to a course")
+    public Response courseEnrollment(@RequestBody final Enrollment enrollment, @PathVariable final long courseId) {
+        try {
             enrollment.setCourse(new Course(courseId, "","","","","",""));
             courseService.courseEnrollment(enrollment);
         } catch (Exception e) {
@@ -66,8 +65,8 @@ public class CourseResource {
     }
 
     @GetMapping(value = "/{courseId}/enrollments", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value="get all the user enrollments for a course")
-    public List<Enrollment> getAllEnrollments(@PathVariable long courseId) throws Exception {
+    @ApiOperation(value = "get all the user enrollments for a course")
+    public List<Enrollment> getAllEnrollments(@PathVariable final long courseId) throws Exception {
         List<Enrollment> enrollments = courseService.getAllEnrollments(courseId);
         if (enrollments.isEmpty()) {
             throw new NotFoundException(String.format("There are no user enrollments for the give course id: %d", courseId));
@@ -75,10 +74,10 @@ public class CourseResource {
         return enrollments;
     }
 
-    @RequestMapping(value="/{courseId}", method=RequestMethod.PUT,
+    @RequestMapping(value = "/{courseId}", method=RequestMethod.PUT,
     consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value="Update the course")
-    public Course updateExistingCourse(@RequestBody Course course, @PathVariable long courseId) {
+    @ApiOperation(value = "Update the course")
+    public Course updateExistingCourse(@RequestBody final Course course, @PathVariable final long courseId) {
         Course courseObj = null;
         try {
             courseObj = courseService.updateCourse(courseId, course);
@@ -90,9 +89,9 @@ public class CourseResource {
         return courseObj;
     }
 
-    @RequestMapping(value="/{courseId}", method = RequestMethod.DELETE)
-    @ApiOperation(value="remove the course")
-    public Response removeCourse(@PathVariable long courseId) {
+    @RequestMapping(value = "/{courseId}", method = RequestMethod.DELETE)
+    @ApiOperation(value = "remove the course")
+    public Response removeCourse(@PathVariable final long courseId) {
         try {
             courseService.deleteCourse(courseId);
         } catch (Exception e) {
