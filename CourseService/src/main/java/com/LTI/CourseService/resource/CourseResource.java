@@ -3,7 +3,6 @@ package com.LTI.CourseService.resource;
 import com.LTI.CourseService.exception.ApiRequestException;
 import com.LTI.CourseService.exception.NotFoundException;
 import com.LTI.CourseService.model.Course;
-import com.LTI.CourseService.model.Enrollment;
 import com.LTI.CourseService.model.Response;
 import com.LTI.CourseService.service.CourseService;
 
@@ -50,31 +49,7 @@ public class CourseResource {
         return new Response(String.format("Created new course with id: %d", course.getWileyCourseId()), Boolean.TRUE);
     }
 
-    @RequestMapping(value = "/{courseId}/enrollments", method = RequestMethod.POST,
-    consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Enroll user to a course")
-    public Response courseEnrollment(@RequestBody final Enrollment enrollment, @PathVariable final long courseId) {
-        try {
-            enrollment.setCourse(new Course(courseId, "","","","","",""));
-            courseService.courseEnrollment(enrollment);
-        } catch (Exception e) {
-            throw new ApiRequestException(String.format("Cannot enroll user to the course: %d", courseId));
-        }
-        return new Response(String.format("Enrolled new user: %d to course: %d", enrollment.getEnrollmentId(), courseId),
-                Boolean.TRUE);
-    }
-
-    @GetMapping(value = "/{courseId}/enrollments", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "get all the user enrollments for a course")
-    public List<Enrollment> getAllEnrollments(@PathVariable final long courseId) throws Exception {
-        List<Enrollment> enrollments = courseService.getAllEnrollments(courseId);
-        if (enrollments.isEmpty()) {
-            throw new NotFoundException(String.format("There are no user enrollments for the give course id: %d", courseId));
-        }
-        return enrollments;
-    }
-
-    @RequestMapping(value = "/{courseId}", method=RequestMethod.PUT,
+    @RequestMapping(value = "/{courseId}", method = RequestMethod.PUT,
     consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Update the course")
     public Course updateExistingCourse(@RequestBody final Course course, @PathVariable final long courseId) {

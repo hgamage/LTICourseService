@@ -69,4 +69,34 @@ public class CourseServiceImp implements CourseService {
                 .forEach(enrollments::add);
         return enrollments;
     }
+
+    @Override
+    public Enrollment searchCourseEnrollmentById(final long courseId, final long enrollmentId) throws Exception {
+        Enrollment enrollment = enrollmentJpaRepository.findByEnrollmentId(enrollmentId);
+        if (enrollment.getCourse().getWileyCourseId() != courseId) {
+            throw new NotFoundException(String.format("User with enrollment id: %d not enrolled for this course", enrollmentId));
+        } else {
+            return enrollment;
+        }
+    }
+
+    @Override
+    public Enrollment updateCourseEnrollment(final long enrollmentId, final Enrollment enrollment) throws Exception {
+        Enrollment enrollmentObj = enrollmentJpaRepository.findByEnrollmentId(enrollmentId);
+        if (enrollmentObj == null) {
+            throw new NotFoundException(String.format("There are no enrollment available for enrollment id: %d", enrollmentId));
+        } else {
+            return enrollmentJpaRepository.save(enrollment);
+        }
+    }
+
+    @Override
+    public void deleteCourseEnrollment(final long enrollmentId, final long courseId) throws Exception {
+        Enrollment enrollment = searchCourseEnrollmentById(enrollmentId, courseId);
+        if (enrollment == null) {
+            throw new NotFoundException(String.format("cannot delete enrollment with id: %d in course : %d", enrollmentId, courseId));
+        } else {
+            enrollmentJpaRepository.deleteById(enrollmentId);
+        }
+    }
 }

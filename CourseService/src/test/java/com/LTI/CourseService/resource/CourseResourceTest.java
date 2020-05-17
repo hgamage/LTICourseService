@@ -83,18 +83,6 @@ public class CourseResourceTest {
     }
 
     @Test
-    public void testCourseEnrollmentSuccess() throws Exception {
-        long courseId = 55;
-        MvcResult result = mockMvc.perform(post("/courses/{courseId}/enrollments", courseId)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(globalConstants.ENROLLMENT_OBJECT))
-                .andExpect(status().isOk()).andReturn();
-        String resultContent  = result.getResponse().getContentAsString();
-        Response response = mapper.readValue(resultContent, Response.class);
-        Assertions.assertTrue(response.isSuccess() == Boolean.TRUE);
-    }
-
-    @Test
     public void testRemoveCourseSuccess() throws Exception {
         long courseId = 55;
         MvcResult result = mockMvc.perform(delete("/courses/{courseId}", courseId)
@@ -113,14 +101,6 @@ public class CourseResourceTest {
     }
 
     @Test
-    public void testGetAllEnrollmentsSuccess() throws Exception {
-        long courseId = 55;
-        mockMvc.perform(get("/courses/{courseId}/enrollments", courseId)
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk()).andReturn();
-    }
-
-    @Test
     public void testSearchCourseByIdTestFail() throws Exception {
         String courseId = "0";
         mockMvc.perform(get("/courses/{courseId}", courseId)
@@ -134,12 +114,5 @@ public class CourseResourceTest {
         Course course = new Course(47, "Testing1", "test", "14/05/20 16:28:48", "inst2", "13/05/20 12:25:32", "13/05/20 12:25:32");
         when(courseService.updateCourse(courseId, course)).thenReturn(null);
         Assertions.assertEquals(null, courseService.updateCourse(courseId, course));
-    }
-
-    @Test
-    public void testGetAllEnrollmentsFail() throws Exception {
-        long courseId = 55;
-        when(courseService.getAllEnrollments(courseId)).thenReturn(null);
-        Assertions.assertEquals(null, courseService.getAllEnrollments(courseId));
     }
 }

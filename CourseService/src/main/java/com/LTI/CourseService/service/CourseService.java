@@ -22,10 +22,9 @@ public interface CourseService {
     List<Course> getAllCourses() throws Exception;
 
     /**
-     * method searchCourseById will retrive the course object
-     * with given course id in the parameters.
-     * @return Course object
-     * @param courseId of the return course object
+     * method updateCourse will update the course data.
+     * @param courseId id of the course.
+     * @return updated course object
      */
     Course searchCourseById(long courseId) throws Exception;
 
@@ -64,4 +63,30 @@ public interface CourseService {
      * @return List of all the enrollments
      */
     List<Enrollment> getAllEnrollments(long courseId) throws Exception;
+
+    /**
+     * method updateCourseEnrollment will update the
+     * user enrollemnet for the course.
+     * @param enrollmentId contain the id of the enrollment
+     * @param enrollment contain the update enrollment details
+     * @return updated enrollment object.
+     */
+    Enrollment updateCourseEnrollment(long enrollmentId, Enrollment enrollment) throws Exception;
+
+    /**
+     * method deleteCourseEnrollment will delete the
+     * course enrollment.
+     * @param enrollmentId contain the id of the enrollment
+     * @param courseId contain the id of the course
+     */
+    void deleteCourseEnrollment(long enrollmentId, long courseId) throws Exception;
+
+    /**
+     * method searchCourseById will retrive the course object
+     * with given course id in the parameters.
+     * @return Course object
+     * @param courseId course id of the enrollment
+     * @param enrollmentId id of the enrollment
+     */
+    Enrollment searchCourseEnrollmentById(long courseId, long enrollmentId) throws Exception;
 }

@@ -17,7 +17,7 @@ public class Enrollment {
     @Id
     @GeneratedValue
     @Column(name="enrollment_id")
-    private int enrollmentId;
+    private long enrollmentId;
     @Column(name="user_id")
     private long wileyUserId;
     @Column(name = "user_name")
@@ -25,10 +25,10 @@ public class Enrollment {
     @ManyToOne
     private Course course;
 
-    public Enrollment(int enrollmentId, long wileyUserId, String userName, long wileyCourseId) {
+    public Enrollment(final long enrollmentId, final long wileyUserId, final String userName, final long wileyCourseId) {
         this.enrollmentId = enrollmentId;
         this.wileyUserId = wileyUserId;
         this.userName = userName;
-        this.course = new Course(wileyCourseId, "", "", "","","","");
+        this.course = new Course(wileyCourseId, "", "", "", "", "", "");
     }
 }
