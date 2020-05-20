@@ -102,7 +102,7 @@ public class CourseResourceTest {
         when(courseService.updateCourse(courseId, course)).thenReturn(course);
         mockMvc.perform(put("/courses/{courseId}", courseId)
                 .contentType(MediaType.APPLICATION_JSON)
-        .content(globalConstants.UPDATE_COURSE_OBJECT)).andExpect(status().isOk()).andExpect(content().json(globalConstants.UPDATE_COURSE_OBJECT));
+        .content(globalConstants.UPDATE_COURSE_OBJECT)).andExpect(status().isOk()).andReturn();
     }
 
     @Test
