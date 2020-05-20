@@ -32,8 +32,8 @@ class CourseServiceImpTest {
     @Test
     void testGetAllCourses() throws Exception {
         when(courseJpaRepository.findAll()).thenReturn(Stream.of(
-                new Course(1,"testTitle1", "testType","13/05/20 12:25:32","testInst", "13/05/20 12:25:32", "13/05/20 12:25:32"),
-                new Course(2, "testTitle2", "testType2", "13/05/20 12:25:32", "testInst2", "13/05/20 12:25:32", "13/05/20 12:25:32")
+                new Course(1,"testTitle1", "testType","13/05/20 12:25:32","testInst", "13/05/20 12:25:32", "13/05/20 12:25:32", null),
+                new Course(2, "testTitle2", "testType2", "13/05/20 12:25:32", "testInst2", "13/05/20 12:25:32", "13/05/20 12:25:32", null)
         ).collect(Collectors.toList()));
         assertEquals(2, courseService.getAllCourses().size());
     }
@@ -41,23 +41,23 @@ class CourseServiceImpTest {
     @Test
     void testSearchCourseById() throws Exception {
         long courseId = 55;
-        Course course = new Course(55, "Testing", "test", "14/05/20 16:28:48", "inst2", "13/05/20 12:25:32", "13/05/20 12:25:32");
+        Course course = new Course(55, "Testing", "test", "14/05/20 16:28:48", "inst2", "13/05/20 12:25:32", "13/05/20 12:25:32", null);
         when(courseJpaRepository.findByWileyCourseId(courseId)).thenReturn(
-                new Course(55, "Testing", "test", "14/05/20 16:28:48", "inst2", "13/05/20 12:25:32", "13/05/20 12:25:32")
+                new Course(55, "Testing", "test", "14/05/20 16:28:48", "inst2", "13/05/20 12:25:32", "13/05/20 12:25:32", null)
         );
         assertEquals(course, courseService.searchCourseById(courseId));
     }
 
     @Test
     void testSaveCourse() throws Exception {
-        Course course = new Course(55, "Testing", "test", "14/05/20 16:28:48", "inst2", "13/05/20 12:25:32", "13/05/20 12:25:32");
+        Course course = new Course(55, "Testing", "test", "14/05/20 16:28:48", "inst2", "13/05/20 12:25:32", "13/05/20 12:25:32", null);
         when(courseJpaRepository.save(course)).thenReturn(null);
         assertEquals(null, courseJpaRepository.save(course));
     }
 
     @Test
     void testUpdateCourse() throws Exception {
-        Course course = new Course(55, "Testing1", "test", "14/05/20 16:28:48", "inst2", "13/05/20 12:25:32", "13/05/20 12:25:32");
+        Course course = new Course(55, "Testing1", "test", "14/05/20 16:28:48", "inst2", "13/05/20 12:25:32", "13/05/20 12:25:32", null);
         when(courseJpaRepository.save(course)).thenReturn(course);
         assertEquals(course, courseJpaRepository.save(course));
     }

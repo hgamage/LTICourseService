@@ -1,5 +1,6 @@
 package com.LTI.CourseService.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
@@ -16,19 +17,21 @@ public class Enrollment {
 
     @Id
     @GeneratedValue
-    @Column(name="enrollment_id")
+    @Column(name = "enrollment_id")
     private long enrollmentId;
-    @Column(name="user_id")
+    @Column(name = "user_id")
     private long wileyUserId;
     @Column(name = "user_name")
     private String userName;
-    @ManyToOne
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_id")
     private Course course;
 
     public Enrollment(final long enrollmentId, final long wileyUserId, final String userName, final long wileyCourseId) {
         this.enrollmentId = enrollmentId;
         this.wileyUserId = wileyUserId;
         this.userName = userName;
-        this.course = new Course(wileyCourseId, "", "", "", "", "", "");
+        this.course = new Course(wileyCourseId, "", "", "", "", "", "", null);
     }
 }

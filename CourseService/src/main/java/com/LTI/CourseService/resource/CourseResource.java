@@ -20,14 +20,13 @@ public class CourseResource {
     @Autowired
     private CourseService courseService;
 
-    @GetMapping("/")
+    @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Get all the available courses")
     public List<Course> getAllCourses() throws Exception {
             return courseService.getAllCourses();
     }
 
-    @GetMapping(value = "/{courseId}", produces = MediaType.APPLICATION_JSON_VALUE,
-    consumes = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{courseId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Get course by course id")
     public Course searchCourseById(@PathVariable final long courseId) throws Exception {
         Course courseObj = courseService.searchCourseById(courseId);
@@ -64,7 +63,7 @@ public class CourseResource {
         return courseObj;
     }
 
-    @RequestMapping(value = "/{courseId}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{courseId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "remove the course")
     public Response removeCourse(@PathVariable final long courseId) {
         try {

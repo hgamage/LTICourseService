@@ -92,7 +92,7 @@ public class CourseServiceImp implements CourseService {
 
     @Override
     public void deleteCourseEnrollment(final long enrollmentId, final long courseId) throws Exception {
-        Enrollment enrollment = searchCourseEnrollmentById(enrollmentId, courseId);
+        Enrollment enrollment = searchCourseEnrollmentById(courseId, enrollmentId);
         if (enrollment == null) {
             throw new NotFoundException(String.format("cannot delete enrollment with id: %d in course : %d", enrollmentId, courseId));
         } else {

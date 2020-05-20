@@ -25,7 +25,6 @@ import java.util.stream.Stream;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -54,8 +53,8 @@ public class CourseResourceTest {
     public void testGetAllTestCasesSuccess() throws Exception {
 
         when(courseService.getAllCourses()).thenReturn(Stream.of(
-                new Course(1,"testTitle1", "testType","13/05/20 12:25:32","testInst", "13/05/20 12:25:32", "13/05/20 12:25:32"),
-                new Course(2, "testTitle2", "testType2", "13/05/20 12:25:32", "testInst2", "13/05/20 12:25:32", "13/05/20 12:25:32")
+                new Course(1,"testTitle1", "testType","13/05/20 12:25:32","testInst", "13/05/20 12:25:32", "13/05/20 12:25:32", null),
+                new Course(2, "testTitle2", "testType2", "13/05/20 12:25:32", "testInst2", "13/05/20 12:25:32", "13/05/20 12:25:32", null)
         ).collect(Collectors.toList()));
         mockMvc.perform(get("/courses/")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -76,10 +75,14 @@ public class CourseResourceTest {
 
     @Test
     public void testSearchByIdSuccess() throws Exception {
-        long courseId = 54;
+        long courseId = 55;
+        Course course = new Course(55, "Testing", "test", "14/05/20 16:28:48", "inst2", "13/05/20 12:25:32", "13/05/20 12:25:32", null);
+        when(courseService.searchCourseById(courseId)).thenReturn(
+                new Course(55, "Testing", "test", "14/05/20 16:28:48", "inst2", "13/05/20 12:25:32", "13/05/20 12:25:32", null)
+        );
         mockMvc.perform(get("/courses/{courseId}", courseId)
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk()).andReturn();
+                .andExpect(status().isOk()).andExpect(content().json(globalConstants.UPDATE_COURSE_OBJECT));
     }
 
     @Test
@@ -95,14 +98,16 @@ public class CourseResourceTest {
     @Test
     public void testUpdateExistingCourseSuccess() throws Exception {
         long courseId = 55;
-        MvcResult result = mockMvc.perform(put("/courses/{courseId}", courseId)
+        Course course = new Course(55, "Testing1", "test", "14/05/20 16:28:48", "inst2", "13/05/20 12:25:32", "13/05/20 12:25:32", null);
+        when(courseService.updateCourse(courseId, course)).thenReturn(course);
+        mockMvc.perform(put("/courses/{courseId}", courseId)
                 .contentType(MediaType.APPLICATION_JSON)
-        .content(globalConstants.UPDATE_COURSE_OBJECT)).andExpect(status().isOk()).andDo(print()).andReturn();
+        .content(globalConstants.UPDATE_COURSE_OBJECT)).andExpect(status().isOk()).andExpect(content().json(globalConstants.UPDATE_COURSE_OBJECT));
     }
 
     @Test
     public void testSearchCourseByIdTestFail() throws Exception {
-        String courseId = "0";
+        long courseId = 0;
         mockMvc.perform(get("/courses/{courseId}", courseId)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound()).andReturn();
@@ -111,7 +116,7 @@ public class CourseResourceTest {
     @Test
     public void testUpdateExistingCourseFail() throws Exception {
         long courseId = 47;
-        Course course = new Course(47, "Testing1", "test", "14/05/20 16:28:48", "inst2", "13/05/20 12:25:32", "13/05/20 12:25:32");
+        Course course = new Course(47, "Testing1", "test", "14/05/20 16:28:48", "inst2", "13/05/20 12:25:32", "13/05/20 12:25:32", null);
         when(courseService.updateCourse(courseId, course)).thenReturn(null);
         Assertions.assertEquals(null, courseService.updateCourse(courseId, course));
     }

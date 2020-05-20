@@ -46,7 +46,7 @@ public class EnrollmentResource {
     @ApiOperation(value = "Enroll user to a course")
     public Response courseEnrollment(@RequestBody final Enrollment enrollment, @PathVariable final long courseId) {
         try {
-            enrollment.setCourse(new Course(courseId, "", "", "", "", "", ""));
+            enrollment.setCourse(new Course(courseId, "", "", "", "", "", "", null));
             courseService.courseEnrollment(enrollment);
         } catch (Exception e) {
             throw new ApiRequestException(String.format("Cannot enroll user to the course: %d", courseId));
@@ -62,7 +62,7 @@ public class EnrollmentResource {
                                                @PathVariable final long courseId, @PathVariable final long enrollmentId) {
         Enrollment enrollmentObj = null;
         try {
-            enrollment.setCourse(new Course(courseId, "", "", "", "", "", ""));
+            enrollment.setCourse(new Course(courseId, "", "", "", "", "", "", null));
             enrollmentObj = courseService.updateCourseEnrollment(enrollmentId, enrollment);
         } catch (NotFoundException e) {
             throw new NotFoundException(String.format("There are no enrollment available for course id: %d with enrollment id: %d", courseId, enrollmentId));
@@ -72,7 +72,7 @@ public class EnrollmentResource {
         return enrollmentObj;
     }
 
-    @RequestMapping(value = "courses/{courseId}/enrollments/{enrollmentId}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "courses/{courseId}/enrollments/{enrollmentId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "remove the enrollment")
     public Response removeCourseEnrollment(@PathVariable final long enrollmentId, @PathVariable final long courseId) {
         try {

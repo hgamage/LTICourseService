@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 @Getter
 @Setter
@@ -19,19 +19,21 @@ public class Course {
 
     @Id
     @GeneratedValue
-    @Column(name="course_id")
+    @Column(name = "course_id")
     private long wileyCourseId;
-    @Column(name="title")
+    @Column(name = "title")
     private String title;
-    @Column(name="type")
+    @Column(name = "type")
     private String type;
-    @Column(name="createDate")
+    @Column(name = "createDate")
     private String createDate;
-    @Column(name="institution_id")
+    @Column(name = "institution_id")
     private String institutionId;
-    @Column(name="start_date")
+    @Column(name = "start_date")
     private String courseStartDate;
-    @Column(name="end_date")
+    @Column(name = "end_date")
     private String courseEndDate;
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    private List<Enrollment> enrollments;
 
 }
