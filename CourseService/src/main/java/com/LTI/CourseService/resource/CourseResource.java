@@ -9,6 +9,7 @@ import com.LTI.CourseService.service.CourseService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,12 +23,14 @@ public class CourseResource {
 
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Get all the available courses")
+    @PreAuthorize("hasAnyRole('ROLE_admin', 'ROLE_user')")
     public List<Course> getAllCourses() throws Exception {
             return courseService.getAllCourses();
     }
 
     @GetMapping(value = "/{courseId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Get course by course id")
+    @PreAuthorize("hasAnyRole('ROLE_admin', 'ROLE_user')")
     public Course searchCourseById(@PathVariable final long courseId) throws Exception {
         Course courseObj = courseService.searchCourseById(courseId);
         if (courseObj == null) {
@@ -39,6 +42,7 @@ public class CourseResource {
     @RequestMapping(value = "/", method= RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Insert new course")
+    @PreAuthorize("hasAuthority('create_course')")
     public Response addNewCourse(@RequestBody final Course course) {
         try {
             courseService.saveCourse(course);
@@ -51,6 +55,7 @@ public class CourseResource {
     @RequestMapping(value = "/{courseId}", method = RequestMethod.PUT,
     consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Update the course")
+    @PreAuthorize("hasRole('ROLE_admin')")
     public Course updateExistingCourse(@RequestBody final Course course, @PathVariable final long courseId) {
         Course courseObj = null;
         try {
@@ -65,6 +70,7 @@ public class CourseResource {
 
     @RequestMapping(value = "/{courseId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "remove the course")
+    @PreAuthorize("hasRole('ROLE_admin')")
     public Response removeCourse(@PathVariable final long courseId) {
         try {
             courseService.deleteCourse(courseId);
