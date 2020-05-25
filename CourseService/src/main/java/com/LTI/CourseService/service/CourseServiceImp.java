@@ -23,19 +23,19 @@ public class CourseServiceImp implements CourseService {
     private EnrollmentJpaRepository enrollmentJpaRepository;
 
     @Override
-    public List<Course> getAllCourses() throws Exception {
+    public List<Course> getAllCourses() {
         List<Course> courses = new ArrayList<>();
         courseJpaRepository.findAll().forEach(courses::add);
         return courses;
     }
 
     @Override
-    public Course searchCourseById(final long courseId) throws Exception {
+    public Course searchCourseById(final long courseId) {
         return courseJpaRepository.findByWileyCourseId(courseId);
     }
 
     @Override
-    public void saveCourse(final Course course) throws Exception {
+    public void saveCourse(final Course course) {
         DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
         Date currentDate = new Date();
         course.setCreateDate(df.format(currentDate));
@@ -43,7 +43,7 @@ public class CourseServiceImp implements CourseService {
     }
 
     @Override
-    public Course updateCourse(final long courseId, final Course course)throws Exception {
+    public Course updateCourse(final long courseId, final Course course) {
         Course courseObj = courseJpaRepository.findByWileyCourseId(courseId);
         if (courseObj == null) {
             throw new NotFoundException(String.format("There are no course available for course id: %d", courseId));
@@ -53,17 +53,17 @@ public class CourseServiceImp implements CourseService {
     }
 
     @Override
-    public void deleteCourse(final long courseId) throws Exception {
+    public void deleteCourse(final long courseId) {
         courseJpaRepository.deleteById(courseId);
     }
 
     @Override
-    public void courseEnrollment(final Enrollment enrollment) throws Exception {
+    public void courseEnrollment(final Enrollment enrollment) {
         enrollmentJpaRepository.save(enrollment);
     }
 
     @Override
-    public List<Enrollment> getAllEnrollments(final long courseId) throws Exception {
+    public List<Enrollment> getAllEnrollments(final long courseId) {
         List<Enrollment> enrollments = new ArrayList<>();
         enrollmentJpaRepository.findByCourseWileyCourseId(courseId)
                 .forEach(enrollments::add);
@@ -71,7 +71,7 @@ public class CourseServiceImp implements CourseService {
     }
 
     @Override
-    public Enrollment searchCourseEnrollmentById(final long courseId, final long enrollmentId) throws Exception {
+    public Enrollment searchCourseEnrollmentById(final long courseId, final long enrollmentId) {
         Enrollment enrollment = enrollmentJpaRepository.findByEnrollmentId(enrollmentId);
         if (enrollment.getCourse().getWileyCourseId() != courseId) {
             throw new NotFoundException(String.format("User with enrollment id: %d not enrolled for this course", enrollmentId));
@@ -81,7 +81,7 @@ public class CourseServiceImp implements CourseService {
     }
 
     @Override
-    public Enrollment updateCourseEnrollment(final long enrollmentId, final Enrollment enrollment) throws Exception {
+    public Enrollment updateCourseEnrollment(final long enrollmentId, final Enrollment enrollment) {
         Enrollment enrollmentObj = enrollmentJpaRepository.findByEnrollmentId(enrollmentId);
         if (enrollmentObj == null) {
             throw new NotFoundException(String.format("There are no enrollment available for enrollment id: %d", enrollmentId));
@@ -91,7 +91,7 @@ public class CourseServiceImp implements CourseService {
     }
 
     @Override
-    public void deleteCourseEnrollment(final long enrollmentId, final long courseId) throws Exception {
+    public void deleteCourseEnrollment(final long enrollmentId, final long courseId) {
         Enrollment enrollment = searchCourseEnrollmentById(courseId, enrollmentId);
         if (enrollment == null) {
             throw new NotFoundException(String.format("cannot delete enrollment with id: %d in course : %d", enrollmentId, courseId));

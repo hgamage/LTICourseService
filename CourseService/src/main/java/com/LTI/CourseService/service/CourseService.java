@@ -19,20 +19,20 @@ public interface CourseService {
      * data relavant to the course.
      * @return List of Courses
      */
-    List<Course> getAllCourses() throws Exception;
+    List<Course> getAllCourses();
 
     /**
      * method updateCourse will update the course data.
      * @param courseId id of the course.
      * @return updated course object
      */
-    Course searchCourseById(long courseId) throws Exception;
+    Course searchCourseById(long courseId);
 
     /**
      * method saveCourse will save the new course.
      * @param course contain the object to be persist
      */
-    void saveCourse(Course course) throws Exception;
+    void saveCourse(Course course);
 
     /**
      * method updateCourse will update the course data.
@@ -40,21 +40,21 @@ public interface CourseService {
      * @param courseId which object going to update.
      * @return updated course object
      */
-    Course updateCourse(long courseId, Course course) throws Exception;
+    Course updateCourse(long courseId, Course course);
 
     /**
      * method deleteCourse will delete the course with given.
      * id in the course parameter.
      * @param courseId contain the object id to be delete
      */
-    void deleteCourse(long courseId) throws Exception;
+    void deleteCourse(long courseId);
 
     /**
      *  method courseEnrollment will enroll the user
      *  to the course.
      * @param enrollment contain the object to be save
      */
-    void courseEnrollment(Enrollment enrollment) throws Exception;
+    void courseEnrollment(Enrollment enrollment);
 
     /**
      * method getAllEnrollments will all the
@@ -62,7 +62,7 @@ public interface CourseService {
      * @param courseId contain the id of the course
      * @return List of all the enrollments
      */
-    List<Enrollment> getAllEnrollments(long courseId) throws Exception;
+    List<Enrollment> getAllEnrollments(long courseId);
 
     /**
      * method updateCourseEnrollment will update the
@@ -71,7 +71,7 @@ public interface CourseService {
      * @param enrollment contain the update enrollment details
      * @return updated enrollment object.
      */
-    Enrollment updateCourseEnrollment(long enrollmentId, Enrollment enrollment) throws Exception;
+    Enrollment updateCourseEnrollment(long enrollmentId, Enrollment enrollment);
 
     /**
      * method deleteCourseEnrollment will delete the
@@ -79,7 +79,7 @@ public interface CourseService {
      * @param enrollmentId contain the id of the enrollment
      * @param courseId contain the id of the course
      */
-    void deleteCourseEnrollment(long enrollmentId, long courseId) throws Exception;
+    void deleteCourseEnrollment(long enrollmentId, long courseId);
 
     /**
      * method searchCourseById will retrive the course object
@@ -88,5 +88,5 @@ public interface CourseService {
      * @param courseId course id of the enrollment
      * @param enrollmentId id of the enrollment
      */
-    Enrollment searchCourseEnrollmentById(long courseId, long enrollmentId) throws Exception;
+    Enrollment searchCourseEnrollmentById(long courseId, long enrollmentId);
 }

@@ -24,14 +24,14 @@ public class CourseResource {
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Get all the available courses")
     @PreAuthorize("hasAnyRole('ROLE_admin', 'ROLE_user')")
-    public List<Course> getAllCourses() throws Exception {
+    public List<Course> getAllCourses() {
             return courseService.getAllCourses();
     }
 
     @GetMapping(value = "/{courseId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Get course by course id")
     @PreAuthorize("hasAnyRole('ROLE_admin', 'ROLE_user')")
-    public Course searchCourseById(@PathVariable final long courseId) throws Exception {
+    public Course searchCourseById(@PathVariable final long courseId) {
         Course courseObj = courseService.searchCourseById(courseId);
         if (courseObj == null) {
             throw new NotFoundException(String.format("course not found with given id: %d", courseId));
@@ -44,11 +44,7 @@ public class CourseResource {
     @ApiOperation(value = "Insert new course")
     @PreAuthorize("hasAuthority('create_course')")
     public Response addNewCourse(@RequestBody final Course course) {
-        try {
-            courseService.saveCourse(course);
-        } catch (Exception e) {
-            throw new ApiRequestException(String.format("Cannot create new Course with given object please check the request"));
-        }
+        courseService.saveCourse(course);
         return new Response(String.format("Created new course with id: %d", course.getWileyCourseId()), Boolean.TRUE);
     }
 
@@ -58,13 +54,7 @@ public class CourseResource {
     @PreAuthorize("hasRole('ROLE_admin')")
     public Course updateExistingCourse(@RequestBody final Course course, @PathVariable final long courseId) {
         Course courseObj = null;
-        try {
-            courseObj = courseService.updateCourse(courseId, course);
-        } catch (NotFoundException e) {
-            throw new NotFoundException(String.format("There are no course available for course id: %d", courseId));
-        } catch (Exception e) {
-            throw new ApiRequestException(String.format("Unable to update record for given course id : %d", courseId));
-        }
+        courseObj = courseService.updateCourse(courseId, course);
         return courseObj;
     }
 
@@ -72,11 +62,7 @@ public class CourseResource {
     @ApiOperation(value = "remove the course")
     @PreAuthorize("hasRole('ROLE_admin')")
     public Response removeCourse(@PathVariable final long courseId) {
-        try {
-            courseService.deleteCourse(courseId);
-        } catch (Exception e) {
-            throw new ApiRequestException(String.format("Unable to delete course with given course id: %d", courseId));
-        }
+        courseService.deleteCourse(courseId);
         return new Response(String.format("Removed course with id: %d", courseId), Boolean.TRUE);
     }
 }
