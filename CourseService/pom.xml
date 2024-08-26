@@ -17,7 +17,7 @@
 	<properties>
 		<java.version>11</java.version>
 		<junit-platform-version>5.6.2</junit-platform-version>
-		<springfox-swagger>2.9.2</springfox-swagger>
+		<springfox-swagger>2.10.0</springfox-swagger>
 		<spring-cloud.version>Hoxton.SR4</spring-cloud.version>
 	</properties>
 
